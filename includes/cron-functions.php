@@ -9,6 +9,7 @@ add_filter('cron_schedules', 'gemini_custom_cron_schedules');
 function gemini_custom_cron_schedules($schedules) {
     $schedules['4hours'] = ['interval' => 4 * HOUR_IN_SECONDS, 'display' => __('Every 4 Hours')];
     $schedules['8hours'] = ['interval' => 8 * HOUR_IN_SECONDS, 'display' => __('Every 8 Hours')];
+    $schedules['3days'] = ['interval' => 3 * DAY_IN_SECONDS, 'display' => __('Every 3 Days')];
     $schedules['weekly'] = ['interval' => 7 * DAY_IN_SECONDS, 'display' => __('Every 1 Week')];
     return $schedules;
 }

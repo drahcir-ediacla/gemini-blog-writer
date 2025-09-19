@@ -13,9 +13,10 @@ function gemini_generate_dalle_image_base64($title, $api_key = null) {
             'Content-Type'  => 'application/json',
         ],
         'body' => json_encode([
+			'model' => 'dall-e-3',
             'prompt' => "A high-quality blog illustration about: " . $title,
             'n' => 1,
-            'size' => '512x512',
+            'size' => '1024x1024',
             'response_format' => 'b64_json'
         ]),
         'timeout' => 30,

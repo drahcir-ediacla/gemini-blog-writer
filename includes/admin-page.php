@@ -41,6 +41,8 @@ function gemini_blog_settings_page()
                 $interval_seconds = 8 * HOUR_IN_SECONDS;
             } elseif ($interval === 'daily') {
                 $interval_seconds = DAY_IN_SECONDS;
+            } elseif ($interval === '3days') { 
+                $interval_seconds = 3 * DAY_IN_SECONDS;
             } elseif ($interval === 'weekly') {
                 $interval_seconds = 7 * DAY_IN_SECONDS;
             }
@@ -119,6 +121,7 @@ function gemini_blog_settings_page()
                     <option value="4hours" <?php selected($auto_post_interval, '4hours'); ?>>Every 4 Hours</option>
                     <option value="8hours" <?php selected($auto_post_interval, '8hours'); ?>>Every 8 Hours</option>
                     <option value="daily" <?php selected($auto_post_interval, 'daily'); ?>>Every 1 Day</option>
+                    <option value="3days" <?php selected($auto_post_interval, '3days'); ?>>Every 3 Days</option>
                     <option value="weekly" <?php selected($auto_post_interval, 'weekly'); ?>>Every 1 Week</option>
                 </select>
                 <br><br>

@@ -437,11 +437,16 @@ function gemini_run_mailpoet_newsletter_send($post_id)
             file_put_contents($log_path, "❌ List ID {$list_id} not found.\n", FILE_APPEND);
             return;
         }
+		
+		// Clean subject
+        $title_plain = html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $title_plain = str_replace(['’', '‘'], "'", $title_plain);
+        $title_plain = str_replace(['“', '”'], '"', $title_plain);
 
         // Create newsletter draft
         $newsletter = $controller->save([
-            'name' => 'Auto Newsletter - ' . $title,
-            'subject' => $title,
+            'name' => 'Auto Newsletter - ' . $title_plain,
+            'subject' => $title_plain,
             'type' => 'standard',
             'status' => 'draft',
             'editor' => 'drag_and_drop',
