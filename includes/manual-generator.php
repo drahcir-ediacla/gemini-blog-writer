@@ -14,7 +14,13 @@ function gemini_generate_content_callback()
     $prompt = '';
     $debug_log = __DIR__ . '/gemini-debug.log';
 
-    $formatting_instructions = "Write a complete blog post in HTML format. Use <h4> for headings, <p> for paragraphs, <strong> for emphasis, and lists where appropriate. Do not include <html>, <title>, <head>, or <body> tags. Do not wrap the HTML in code blocks — return raw HTML only.\n\n";
+    $formatting_instructions = "Write a complete blog post in HTML format. 
+Use <h4> for headings, <p> for paragraphs, <strong> for emphasis, and lists where appropriate. 
+At the end of each summarized article or section, include a line like: 
+<p><strong>Source:</strong> <a href=\"[URL]\">Original Article</a></p>.
+Do not include <html>, <title>, <head>, or <body> tags. 
+Do not wrap the HTML in code blocks — return raw HTML only.\n\n";
+
 
     if ($mode === 'rss' && $rss_url) {
         include_once ABSPATH . WPINC . '/feed.php';
@@ -29,6 +35,7 @@ function gemini_generate_content_callback()
             foreach ($rss_items as $item) {
                 $rss_summary .= "Title: " . $item->get_title() . "\n";
                 $rss_summary .= "Content: " . strip_tags($item->get_description()) . "\n\n";
+                $rss_summary .= "Source URL: " . $item->get_link() . "\n\n";
             }
 
             $prompt = $rss_summary;

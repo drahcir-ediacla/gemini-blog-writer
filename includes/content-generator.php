@@ -20,13 +20,20 @@ function gemini_generate_content_from_rss($rss_url)
     $api_key = get_option('gemini_api_key', '');
     $model = get_option('gemini_model', 'gemini-1.5-flash');
 
-    $formatting_instructions = "Write a complete blog post in HTML format. Use <h4> for headings, <p> for paragraphs, <strong> for emphasis, and lists where appropriate. Do not include <html>, <title>, <head>, or <body> tags. Do not wrap the HTML in code blocks — return raw HTML only.\n\n";
+    $formatting_instructions = "Write a complete blog post in HTML format. 
+Use <h4> for headings, <p> for paragraphs, <strong> for emphasis, and lists where appropriate. 
+At the end of each summarized article or section, include a line like: 
+<p><strong>Source:</strong> <a href=\"[URL]\">Original Article</a></p>.
+Do not include <html>, <title>, <head>, or <body> tags. 
+Do not wrap the HTML in code blocks — return raw HTML only.\n\n";
+
 
     $rss_summary = $formatting_instructions . "Summarize or rewrite the following articles into a single blog post.\n\n";
 
     foreach ($rss_items as $item) {
         $rss_summary .= "Title: " . $item->get_title() . "\n";
         $rss_summary .= "Content: " . strip_tags($item->get_description()) . "\n\n";
+        $rss_summary .= "Source URL: " . $item->get_link() . "\n\n";
     }
 
     $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent";
@@ -69,7 +76,7 @@ function gemini_generate_content_from_rss($rss_url)
         $title = wp_strip_all_tags($matches[1]);
         $content_without_title = preg_replace('/<h2>.*?<\/h2>/i', '', $text, 1);
     } else {
-       // Fallback: use first line as title
+        // Fallback: use first line as title
         $lines = explode("\n", $text);
         $first_line = trim(array_shift($lines));
         $title = wp_strip_all_tags($first_line);
